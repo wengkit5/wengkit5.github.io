@@ -1,0 +1,1145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Guide Showcase</title>
+
+  <style>
+    :root {
+      --navy: #102a43;
+      --blue: #1769aa;
+      --ink: #243b53;
+      --muted: #627d98;
+      --line: #d9e2ec;
+      --bg: #f4f7fa;
+      --red: #b42318;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 15px/1.55 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    header { padding: 26px 24px; background: var(--navy); color: white; }
+    .header-inner, main, footer { width: min(1150px, calc(100% - 32px)); margin: auto; }
+    header h1 { margin: 0; font-size: clamp(25px, 4vw, 34px); }
+    header p { margin: 4px 0 0; color: #d9e8f5; }
+    main { padding: 24px 0 40px; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, .85fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 21px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 0 3px 12px #102a430a;
+    }
+
+    h2 { color: var(--navy); font-size: 20px; margin: 0 0 15px; }
+    h3 { color: var(--navy); font-size: 17px; margin: 0; }
+    h4 { color: var(--navy); margin: 0; }
+    .field { margin-bottom: 15px; }
+    .field label { display: block; margin-bottom: 6px; font-weight: 650; }
+
+    input[type="text"], input[type="file"], textarea {
+      width: 100%;
+      padding: 10px 12px;
+      color: var(--ink);
+      font: inherit;
+      background: white;
+      border: 1px solid #bcccdc;
+      border-radius: 7px;
+    }
+
+    input[type="file"] { padding: 7px; }
+    textarea { min-height: 90px; resize: vertical; }
+    input:focus, textarea:focus { outline: 3px solid #1769aa26; border-color: var(--blue); }
+
+    button {
+      padding: 8px 11px;
+      font: inherit;
+      font-weight: 650;
+      border: 0;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    button:focus-visible { outline: 3px solid #1769aa55; outline-offset: 2px; }
+    .primary { color: white; background: var(--blue); }
+    .primary:hover { background: #12598f; }
+    .secondary { color: var(--navy); background: #eaf0f5; }
+    .secondary:hover { background: #dce7ef; }
+    .danger { color: var(--red); background: #fff0ee; }
+    .danger:hover { background: #ffe1dc; }
+    .small-button { padding: 5px 8px; font-size: 12px; }
+
+    .section-heading { margin: 24px 0 10px; }
+    .section-heading p, .muted { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+    .card-list { display: grid; gap: 12px; }
+    .card { overflow: hidden; border: 1px solid var(--line); border-radius: 9px; }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 13px;
+      background: #fbfdff;
+    }
+
+    .card-title p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+    .card-actions, .function-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .functions { padding: 12px 13px; border-top: 1px solid var(--line); }
+
+    .function-row {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+      padding: 10px 0;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .function-row:last-of-type { border-bottom: 0; }
+    .function-row > input { margin: 4px 0 0; accent-color: var(--blue); }
+    .function-name { color: var(--ink); font-weight: 650; }
+    .function-description { margin-top: 2px; color: var(--muted); font-size: 13px; }
+
+    .function-thumbnail {
+      display: block;
+      max-width: 160px;
+      max-height: 90px;
+      margin-top: 7px;
+      border-radius: 5px;
+      object-fit: cover;
+    }
+
+    .add-form, .add-card-form {
+      display: grid;
+      grid-template-columns: minmax(110px, .75fr) minmax(150px, 1.4fr) auto;
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .preview-header { padding-bottom: 13px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .preview-header p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+    .preview h3 { margin: 16px 0 5px; }
+    .preview h3:first-child { margin-top: 0; }
+    .preview p { margin: 4px 0 10px; white-space: pre-wrap; }
+    .preview ul { padding-left: 21px; margin: 6px 0; }
+    .preview li { margin-bottom: 8px; }
+
+    .preview-image {
+      display: block;
+      max-width: 100%;
+      max-height: 190px;
+      margin-top: 7px;
+      border-radius: 6px;
+      object-fit: contain;
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    footer { padding: 0 0 24px; color: var(--muted); text-align: center; font-size: 12px; }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      padding: 18px;
+      overflow-y: auto;
+      background: #071827aa;
+    }
+
+    .modal.open { display: block; }
+
+    .modal-dialog {
+      width: min(760px, 100%);
+      margin: 25px auto;
+      padding: 22px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 16px 60px #0004;
+    }
+
+    .modal-header, .pages-heading, .page-editor-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .modal-header { margin-bottom: 17px; }
+    .pages-heading { margin: 20px 0 10px; }
+
+    .page-editor {
+      padding: 14px;
+      margin-bottom: 10px;
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .page-editor-top { margin-bottom: 10px; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: white;
+      background: #071827f2;
+    }
+
+    .overlay.open { display: flex; }
+
+    .slide {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: min(900px, 100%);
+      min-height: min(520px, 80vh);
+      padding: clamp(25px, 6vw, 70px);
+      background: linear-gradient(145deg, #143956, #0d2437);
+      border: 1px solid #ffffff30;
+      border-radius: 18px;
+      box-shadow: 0 20px 70px #0007;
+    }
+
+    .slide-kicker {
+      color: #9ed1f2;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .slide h2 {
+      margin: 12px 0;
+      color: white;
+      font-size: clamp(30px, 6vw, 54px);
+      line-height: 1.12;
+    }
+
+    .slide p {
+      color: #dbe9f4;
+      font-size: clamp(17px, 2.4vw, 22px);
+      white-space: pre-wrap;
+    }
+
+    .slide-image {
+      display: block;
+      max-width: 100%;
+      max-height: 40vh;
+      margin-top: 12px;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    .slide-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .slide-controls button { color: var(--navy); background: white; }
+    .slide-count { color: #c5d7e5; font-size: 14px; }
+    #printSlides { display: none; }
+
+    @media print {
+      body > * { display: none !important; }
+
+      #printSlides {
+        display: block !important;
+        position: absolute;
+        inset: 0;
+        padding: 0;
+        background: white;
+        color: #102a43;
+      }
+
+      .print-slide {
+        min-height: 95vh;
+        padding: 35px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+        page-break-after: always;
+        break-after: page;
+      }
+
+      .print-slide:last-child { page-break-after: auto; break-after: auto; }
+      .print-slide h1 { margin: 8px 0 16px; font-size: 32px; }
+      .print-slide p { font-size: 18px; white-space: pre-wrap; }
+
+      .print-slide .print-kicker {
+        color: #1769aa;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+      }
+
+      .print-slide img {
+        display: block;
+        max-width: 100%;
+        max-height: 60vh;
+        margin-top: 16px;
+        object-fit: contain;
+      }
+    }
+
+    @media (max-width: 850px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 580px) {
+      .panel, .modal-dialog { padding: 15px; }
+      .add-form, .add-card-form { grid-template-columns: 1fr; }
+      .card-header { flex-direction: column; }
+      .function-row { grid-template-columns: auto minmax(0, 1fr); }
+      .function-actions { grid-column: 2; }
+      .modal-actions, .slide-controls { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>Product Guide Showcase</h1>
+      <p>Create an application proposal and a slideshow of selected PLC functions.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="layout">
+      <section class="panel" aria-label="Proposal editor">
+        <h2>Application details</h2>
+
+        <div class="field">
+          <label for="company">Company name</label>
+          <input id="company" type="text" placeholder="Enter company name">
+        </div>
+
+        <div class="field">
+          <label for="application">Application proposal</label>
+          <textarea id="application" placeholder="Describe the application or customer requirement..."></textarea>
+        </div>
+
+        <div class="section-heading">
+          <h3>PLC cards and functions</h3>
+          <p>Add or manage cards and functions. Check a function to include it in the slideshow.</p>
+        </div>
+
+        <div id="cardList" class="card-list"></div>
+
+        <div class="add-card-form">
+          <input id="newCardName" type="text" placeholder="PLC card name">
+          <input id="newCardDescription" type="text" placeholder="Card description">
+          <button id="addCardButton" class="primary" type="button">Add PLC card</button>
+        </div>
+      </section>
+
+      <section class="panel preview" aria-label="Proposal preview">
+        <div class="preview-header">
+          <h2 style="margin:0">Proposal preview</h2>
+          <p>Checked functions and their extra pages are included in the slideshow.</p>
+        </div>
+
+        <div id="proposalPreview"></div>
+
+        <div class="actions">
+          <button id="startSlideshow" class="primary" type="button">Start slideshow</button>
+          <button id="copyProposal" class="secondary" type="button">Copy proposal</button>
+          <button id="exportData" class="secondary" type="button">Export data</button>
+          <button id="importDataButton" class="secondary" type="button">Import data</button>
+          <input id="importDataFile" type="file" accept=".json,application/json" hidden>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    The saved PLC card and function library is stored in this browser.
+    Use Export data to share a copy with someone else.
+  </footer>
+
+  <!-- Function editor -->
+  <div id="functionModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="functionModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 id="functionModalTitle">Edit function</h2>
+        <button id="closeFunctionModal" class="secondary" type="button">Close</button>
+      </div>
+
+      <form id="functionForm">
+        <div class="field">
+          <label for="editFunctionName">Function name</label>
+          <input id="editFunctionName" type="text" required>
+        </div>
+
+        <div class="field">
+          <label for="editFunctionDescription">Description</label>
+          <textarea id="editFunctionDescription" placeholder="Describe this PLC function..."></textarea>
+        </div>
+
+        <input id="editFunctionImage" type="hidden">
+
+        <div class="field">
+          <label for="editFunctionFile">Upload image from your PC</label>
+          <input id="editFunctionFile" type="file" accept="image/*">
+          <button id="removeFunctionImage" class="danger small-button" type="button">
+            Remove image
+          </button>
+        </div>
+
+        <div class="pages-heading">
+          <div>
+            <h3>Extra slideshow pages</h3>
+            <p class="muted">Each page can have its own title, description, and uploaded image.</p>
+          </div>
+          <button id="addPageButton" class="secondary" type="button">Add page</button>
+        </div>
+
+        <div id="extraPages"></div>
+
+        <div class="modal-actions">
+          <button id="cancelFunctionEdit" class="secondary" type="button">Cancel</button>
+          <button class="primary" type="submit">Save function</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Slideshow -->
+  <div id="slideshow" class="overlay" role="dialog" aria-modal="true" aria-label="Proposal slideshow">
+    <div class="slide">
+      <div id="slideContent"></div>
+      <div class="slide-controls">
+        <button id="previousSlide" type="button">Previous</button>
+        <span id="slideCount" class="slide-count"></span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="nextSlide" type="button">Next</button>
+          <button id="printSlideshow" type="button">Print slideshow</button>
+          <button id="closeSlideshow" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="printSlides" aria-hidden="true"></div>
+
+  <script>
+    const STORAGE_KEY = "productGuideShowcaseLibrary";
+
+    const DEFAULT_CARDS = [
+      {
+        name: "KV-SH04PL",
+        description: "PLC expansion card",
+        functions: [
+          {
+            name: "PLC Link",
+            description: "Exchanges data between compatible PLCs.",
+            imageUrl: "",
+            pages: []
+          },
+          {
+            name: "Protocol Studio",
+            description: "Configures protocol-based communication with compatible devices.",
+            imageUrl: "",
+            pages: []
+          }
+        ]
+      },
+      {
+        name: "KV-XLE02",
+        description: "PLC expansion card",
+        functions: [
+          {
+            name: "PLC Link",
+            description: "Exchanges data between compatible PLCs.",
+            imageUrl: "",
+            pages: []
+          },
+          {
+            name: "Protocol Studio",
+            description: "Configures protocol-based communication with compatible devices.",
+            imageUrl: "",
+            pages: []
+          }
+        ]
+      }
+    ];
+
+    function cloneData(data) {
+      return JSON.parse(JSON.stringify(data));
+    }
+
+    function loadLibrary() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return cloneData(DEFAULT_CARDS);
+
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed : cloneData(DEFAULT_CARDS);
+      } catch (error) {
+        console.warn("Could not load saved PLC library:", error);
+        return cloneData(DEFAULT_CARDS);
+      }
+    }
+
+    let cards = loadLibrary();
+    const checkedFunctions = new Set();
+    let editing = null;
+    let slides = [];
+    let currentSlide = 0;
+
+    const $ = id => document.getElementById(id);
+
+    function saveLibrary() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cards));
+      } catch (error) {
+        alert("The library could not be saved. The images may be too large for browser storage.");
+        console.error("Could not save PLC library:", error);
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    function imageMarkup(imageData, className, alt) {
+      if (!String(imageData || "").startsWith("data:image/")) return "";
+
+      return `<img class="${escapeHtml(className)}"
+                   src="${escapeHtml(imageData)}"
+                   alt="${escapeHtml(alt)}"
+                   loading="lazy">`;
+    }
+
+    function readImageFile(file, callback) {
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        alert("Please choose an image file.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => callback(reader.result);
+      reader.onerror = () => alert("The image file could not be read.");
+      reader.readAsDataURL(file);
+    }
+
+    function renderCards() {
+      const cardList = $("cardList");
+      cardList.innerHTML = "";
+
+      cards.forEach((card, cardIndex) => {
+        const cardElement = document.createElement("article");
+        cardElement.className = "card";
+
+        const header = document.createElement("div");
+        header.className = "card-header";
+        header.innerHTML = `
+          <div class="card-title">
+            <h4>${escapeHtml(card.name)}</h4>
+            <p>${escapeHtml(card.description)}</p>
+          </div>
+          <div class="card-actions">
+            <button class="secondary small-button edit-card" type="button">Edit card</button>
+            <button class="danger small-button delete-card" type="button">Delete card</button>
+          </div>
+        `;
+
+        header.querySelector(".edit-card").addEventListener("click", () => {
+          const name = prompt("PLC card name:", card.name);
+          if (name === null || !name.trim()) return;
+
+          const description = prompt("Card description:", card.description || "");
+          if (description === null) return;
+
+          card.name = name.trim();
+          card.description = description.trim();
+          saveLibrary();
+          renderCards();
+          updatePreview();
+        });
+
+        header.querySelector(".delete-card").addEventListener("click", () => {
+          if (!confirm(`Delete "${card.name}" and all its functions from the library?`)) return;
+
+          removeCheckedKeysForCard(cardIndex);
+          cards.splice(cardIndex, 1);
+          shiftCheckedKeysAfterCardDelete(cardIndex);
+          saveLibrary();
+          renderCards();
+          updatePreview();
+        });
+
+        cardElement.appendChild(header);
+
+        const functionsArea = document.createElement("div");
+        functionsArea.className = "functions";
+
+        if (!card.functions.length) {
+          functionsArea.innerHTML = '<p class="muted">No functions yet. Add one below.</p>';
+        }
+
+        card.functions.forEach((fn, functionIndex) => {
+          const key = `${cardIndex}-${functionIndex}`;
+          const row = document.createElement("div");
+          row.className = "function-row";
+
+          row.innerHTML = `
+            <input type="checkbox"
+                   aria-label="Include ${escapeHtml(fn.name)} in slideshow"
+                   ${checkedFunctions.has(key) ? "checked" : ""}>
+            <div>
+              <div class="function-name">${escapeHtml(fn.name)}</div>
+              <div class="function-description">${escapeHtml(fn.description || "")}</div>
+              ${imageMarkup(fn.imageUrl, "function-thumbnail", fn.name)}
+              ${fn.pages?.length ? `<div class="muted">${fn.pages.length} extra page(s)</div>` : ""}
+            </div>
+            <div class="function-actions">
+              <button class="secondary small-button edit-function" type="button">Edit</button>
+              <button class="danger small-button delete-function" type="button">Delete</button>
+            </div>
+          `;
+
+          row.querySelector('input[type="checkbox"]').addEventListener("change", event => {
+            if (event.target.checked) checkedFunctions.add(key);
+            else checkedFunctions.delete(key);
+            updatePreview();
+          });
+
+          row.querySelector(".edit-function").addEventListener("click", () => {
+            openFunctionEditor(cardIndex, functionIndex);
+          });
+
+          row.querySelector(".delete-function").addEventListener("click", () => {
+            if (!confirm(`Delete "${fn.name}" from the library?`)) return;
+
+            checkedFunctions.delete(key);
+            card.functions.splice(functionIndex, 1);
+            shiftCheckedKeysAfterFunctionDelete(cardIndex, functionIndex);
+            saveLibrary();
+            renderCards();
+            updatePreview();
+          });
+
+          functionsArea.appendChild(row);
+        });
+
+        const addForm = document.createElement("form");
+        addForm.className = "add-form";
+        addForm.innerHTML = `
+          <input name="name" type="text" placeholder="Function name" required>
+          <input name="description" type="text" placeholder="Function description">
+          <button class="primary" type="submit">Add function</button>
+        `;
+
+        addForm.addEventListener("submit", event => {
+          event.preventDefault();
+
+          const name = addForm.elements.name.value.trim();
+          const description = addForm.elements.description.value.trim();
+          if (!name) return;
+
+          card.functions.push({
+            name,
+            description: description || "No description provided.",
+            imageUrl: "",
+            pages: []
+          });
+
+          saveLibrary();
+          renderCards();
+          updatePreview();
+        });
+
+        functionsArea.appendChild(addForm);
+        cardElement.appendChild(functionsArea);
+        cardList.appendChild(cardElement);
+      });
+    }
+
+    function removeCheckedKeysForCard(cardIndex) {
+      const prefix = `${cardIndex}-`;
+
+      [...checkedFunctions].forEach(key => {
+        if (key.startsWith(prefix)) checkedFunctions.delete(key);
+      });
+    }
+
+    function shiftCheckedKeysAfterCardDelete(deletedCardIndex) {
+      const updated = new Set();
+
+      checkedFunctions.forEach(key => {
+        const [cardIndex, functionIndex] = key.split("-").map(Number);
+
+        if (cardIndex > deletedCardIndex) {
+          updated.add(`${cardIndex - 1}-${functionIndex}`);
+        } else {
+          updated.add(key);
+        }
+      });
+
+      checkedFunctions.clear();
+      updated.forEach(key => checkedFunctions.add(key));
+    }
+
+    function shiftCheckedKeysAfterFunctionDelete(cardIndex, deletedFunctionIndex) {
+      const updated = new Set();
+
+      checkedFunctions.forEach(key => {
+        const [savedCardIndex, functionIndex] = key.split("-").map(Number);
+
+        if (savedCardIndex !== cardIndex || functionIndex < deletedFunctionIndex) {
+          updated.add(key);
+        } else if (functionIndex > deletedFunctionIndex) {
+          updated.add(`${cardIndex}-${functionIndex - 1}`);
+        }
+      });
+
+      checkedFunctions.clear();
+      updated.forEach(key => checkedFunctions.add(key));
+    }
+
+    function openFunctionEditor(cardIndex, functionIndex) {
+      editing = { cardIndex, functionIndex };
+      const fn = cards[cardIndex].functions[functionIndex];
+
+      $("editFunctionName").value = fn.name;
+      $("editFunctionDescription").value = fn.description || "";
+      $("editFunctionImage").value = fn.imageUrl || "";
+      $("editFunctionFile").value = "";
+      renderExtraPages(fn.pages || []);
+
+      $("functionModal").classList.add("open");
+      $("editFunctionName").focus();
+    }
+
+    function closeFunctionEditor() {
+      $("functionModal").classList.remove("open");
+      $("extraPages").innerHTML = "";
+      editing = null;
+    }
+
+    function renderExtraPages(pages) {
+      const container = $("extraPages");
+      container.innerHTML = "";
+
+      pages.forEach((page, index) => {
+        const pageElement = document.createElement("section");
+        pageElement.className = "page-editor";
+
+        pageElement.innerHTML = `
+          <div class="page-editor-top">
+            <h4>Extra page ${index + 1}</h4>
+            <button class="danger small-button remove-page" type="button">Remove page</button>
+          </div>
+
+          <div class="field">
+            <label>Page title</label>
+            <input type="text" data-page-field="title"
+                   value="${escapeHtml(page.title || "")}"
+                   placeholder="Page title">
+          </div>
+
+          <div class="field">
+            <label>Page description</label>
+            <textarea data-page-field="description"
+                      placeholder="Page description">${escapeHtml(page.description || "")}</textarea>
+          </div>
+
+          <div class="field" style="margin-bottom:0">
+            <input type="hidden" data-page-field="imageUrl"
+                   value="${escapeHtml(page.imageUrl || "")}">
+            <label>Upload image from your PC</label>
+            <input type="file" data-page-file accept="image/*">
+            <button class="danger small-button remove-page-image"
+                    type="button" style="margin-top:8px">
+              Remove image
+            </button>
+          </div>
+        `;
+
+        pageElement.querySelector(".remove-page").addEventListener("click", () => {
+          pageElement.remove();
+          renumberExtraPages();
+        });
+
+        const imageInput = pageElement.querySelector('[data-page-field="imageUrl"]');
+        const fileInput = pageElement.querySelector("[data-page-file]");
+
+        fileInput.addEventListener("change", event => {
+          readImageFile(event.target.files[0], dataUrl => {
+            imageInput.value = dataUrl;
+          });
+        });
+
+        pageElement.querySelector(".remove-page-image").addEventListener("click", () => {
+          imageInput.value = "";
+          fileInput.value = "";
+        });
+
+        container.appendChild(pageElement);
+      });
+    }
+
+    function renumberExtraPages() {
+      $("extraPages").querySelectorAll(".page-editor").forEach((pageElement, index) => {
+        pageElement.querySelector("h4").textContent = `Extra page ${index + 1}`;
+      });
+    }
+
+    function collectExtraPages() {
+      return [...$("extraPages").querySelectorAll(".page-editor")].map(element => ({
+        title: element.querySelector('[data-page-field="title"]').value.trim(),
+        description: element.querySelector('[data-page-field="description"]').value.trim(),
+        imageUrl: element.querySelector('[data-page-field="imageUrl"]').value
+      }));
+    }
+
+    $("editFunctionFile").addEventListener("change", event => {
+      readImageFile(event.target.files[0], dataUrl => {
+        $("editFunctionImage").value = dataUrl;
+      });
+    });
+
+    $("removeFunctionImage").addEventListener("click", () => {
+      $("editFunctionImage").value = "";
+      $("editFunctionFile").value = "";
+    });
+
+    $("addPageButton").addEventListener("click", () => {
+      const pages = collectExtraPages();
+      pages.push({ title: "", description: "", imageUrl: "" });
+      renderExtraPages(pages);
+
+      const newTitle = $("extraPages").querySelector(".page-editor:last-child input");
+      if (newTitle) newTitle.focus();
+    });
+
+    $("functionForm").addEventListener("submit", event => {
+      event.preventDefault();
+      if (!editing) return;
+
+      const fn = cards[editing.cardIndex].functions[editing.functionIndex];
+      fn.name = $("editFunctionName").value.trim();
+      fn.description = $("editFunctionDescription").value.trim();
+      fn.imageUrl = $("editFunctionImage").value;
+      fn.pages = collectExtraPages();
+
+      saveLibrary();
+      closeFunctionEditor();
+      renderCards();
+      updatePreview();
+    });
+
+    $("closeFunctionModal").addEventListener("click", closeFunctionEditor);
+    $("cancelFunctionEdit").addEventListener("click", closeFunctionEditor);
+
+    $("functionModal").addEventListener("click", event => {
+      if (event.target === $("functionModal")) closeFunctionEditor();
+    });
+
+    $("addCardButton").addEventListener("click", () => {
+      const nameInput = $("newCardName");
+      const name = nameInput.value.trim();
+
+      if (!name) {
+        nameInput.focus();
+        return;
+      }
+
+      cards.push({
+        name,
+        description: $("newCardDescription").value.trim() || "PLC expansion card",
+        functions: []
+      });
+
+      nameInput.value = "";
+      $("newCardDescription").value = "";
+      saveLibrary();
+      renderCards();
+      updatePreview();
+    });
+
+    function getSelectedFunctions() {
+      const selected = [];
+
+      cards.forEach((card, cardIndex) => {
+        card.functions.forEach((fn, functionIndex) => {
+          if (checkedFunctions.has(`${cardIndex}-${functionIndex}`)) {
+            selected.push({ card, fn });
+          }
+        });
+      });
+
+      return selected;
+    }
+
+    function updatePreview() {
+      const company = $("company").value.trim();
+      const application = $("application").value.trim();
+      const selected = getSelectedFunctions();
+
+      let html = `
+        <h3>Company</h3>
+        <p>${company ? escapeHtml(company) : '<span class="muted">No company name entered.</span>'}</p>
+        <h3>Application proposal</h3>
+        <p>${application ? escapeHtml(application) : '<span class="muted">No application proposal entered.</span>'}</p>
+        <h3>Functions included in slideshow</h3>
+      `;
+
+      if (!selected.length) {
+        html += '<p class="muted">No functions selected for the slideshow.</p>';
+      } else {
+        html += "<ul>";
+
+        selected.forEach(({ card, fn }) => {
+          html += `<li>
+            <strong>${escapeHtml(card.name)} — ${escapeHtml(fn.name)}</strong>
+            <div class="function-description">${escapeHtml(fn.description || "")}</div>
+            ${imageMarkup(fn.imageUrl, "preview-image", fn.name)}
+            ${fn.pages?.length ? `<div class="muted">${fn.pages.length} extra slideshow page(s)</div>` : ""}
+          </li>`;
+        });
+
+        html += "</ul>";
+      }
+
+      $("proposalPreview").innerHTML = html;
+    }
+
+    function buildSlides() {
+      const company = $("company").value.trim();
+      const application = $("application").value.trim();
+
+      const result = [{
+        kicker: "Product Guide Showcase",
+        title: company || "Application Proposal",
+        description: application || "Add an application proposal in the editor.",
+        imageUrl: ""
+      }];
+
+      getSelectedFunctions().forEach(({ card, fn }) => {
+        result.push({
+          kicker: card.name,
+          title: fn.name,
+          description: fn.description || "",
+          imageUrl: fn.imageUrl || ""
+        });
+
+        (fn.pages || []).forEach((page, index) => {
+          result.push({
+            kicker: `${card.name} — ${fn.name}`,
+            title: page.title || `Additional page ${index + 1}`,
+            description: page.description || "",
+            imageUrl: page.imageUrl || ""
+          });
+        });
+      });
+
+      return result;
+    }
+
+    function showSlide(index) {
+      if (!slides.length) return;
+
+      currentSlide = (index + slides.length) % slides.length;
+      const slide = slides[currentSlide];
+
+      $("slideContent").innerHTML = `
+        <div class="slide-kicker">${escapeHtml(slide.kicker)}</div>
+        <h2>${escapeHtml(slide.title)}</h2>
+        <p>${escapeHtml(slide.description)}</p>
+        ${imageMarkup(slide.imageUrl, "slide-image", slide.title)}
+      `;
+
+      $("slideCount").textContent = `Slide ${currentSlide + 1} of ${slides.length}`;
+    }
+
+    $("startSlideshow").addEventListener("click", () => {
+      slides = buildSlides();
+      currentSlide = 0;
+      showSlide(currentSlide);
+      $("slideshow").classList.add("open");
+    });
+
+    $("previousSlide").addEventListener("click", () => showSlide(currentSlide - 1));
+    $("nextSlide").addEventListener("click", () => showSlide(currentSlide + 1));
+
+    $("closeSlideshow").addEventListener("click", () => {
+      $("slideshow").classList.remove("open");
+    });
+
+    $("slideshow").addEventListener("click", event => {
+      if (event.target === $("slideshow")) {
+        $("slideshow").classList.remove("open");
+      }
+    });
+
+    $("printSlideshow").addEventListener("click", () => {
+      $("printSlides").innerHTML = buildSlides().map(slide => `
+        <section class="print-slide">
+          <div class="print-kicker">${escapeHtml(slide.kicker)}</div>
+          <h1>${escapeHtml(slide.title)}</h1>
+          <p>${escapeHtml(slide.description)}</p>
+          ${imageMarkup(slide.imageUrl, "", slide.title)}
+        </section>
+      `).join("");
+
+      window.print();
+    });
+
+    // Export the library, images, proposal details, and selected functions.
+    $("exportData").addEventListener("click", () => {
+      const exportData = {
+        format: "Product Guide Showcase",
+        version: 1,
+        company: $("company").value,
+        application: $("application").value,
+        cards,
+        checkedFunctions: [...checkedFunctions]
+      };
+
+      const blob = new Blob(
+        [JSON.stringify(exportData, null, 2)],
+        { type: "application/json" }
+      );
+
+      const downloadUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = "product-guide-showcase.json";
+      link.click();
+
+      setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+    });
+
+    // Open the file picker for importing an exported JSON file.
+    $("importDataButton").addEventListener("click", () => {
+      $("importDataFile").click();
+    });
+
+    $("importDataFile").addEventListener("change", async event => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      try {
+        const imported = JSON.parse(await file.text());
+
+        if (!imported || !Array.isArray(imported.cards)) {
+          throw new Error("This file does not contain a valid PLC card library.");
+        }
+
+        if (!confirm("Import this data and replace the current library and proposal?")) {
+          return;
+        }
+
+        cards = imported.cards.map(card => ({
+          name: String(card?.name || ""),
+          description: String(card?.description || ""),
+          functions: Array.isArray(card?.functions)
+            ? card.functions.map(fn => ({
+                name: String(fn?.name || ""),
+                description: String(fn?.description || ""),
+                imageUrl: String(fn?.imageUrl || ""),
+                pages: Array.isArray(fn?.pages)
+                  ? fn.pages.map(page => ({
+                      title: String(page?.title || ""),
+                      description: String(page?.description || ""),
+                      imageUrl: String(page?.imageUrl || "")
+                    }))
+                  : []
+              }))
+            : []
+        }));
+
+        $("company").value = String(imported.company || "");
+        $("application").value = String(imported.application || "");
+
+        checkedFunctions.clear();
+
+        if (Array.isArray(imported.checkedFunctions)) {
+          imported.checkedFunctions.forEach(key => {
+            if (typeof key !== "string" || !/^\d+-\d+$/.test(key)) return;
+
+            const [cardIndex, functionIndex] = key.split("-").map(Number);
+            if (cards[cardIndex]?.functions[functionIndex]) {
+              checkedFunctions.add(key);
+            }
+          });
+        }
+
+        saveLibrary();
+        renderCards();
+        updatePreview();
+        alert("Import complete.");
+      } catch (error) {
+        alert(`Could not import this file: ${error.message}`);
+      } finally {
+        event.target.value = "";
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if ($("functionModal").classList.contains("open") && event.key === "Escape") {
+        closeFunctionEditor();
+      }
+
+      if ($("slideshow").classList.contains("open")) {
+        if (event.key === "Escape") $("slideshow").classList.remove("open");
+        if (event.key === "ArrowRight") showSlide(currentSlide + 1);
+        if (event.key === "ArrowLeft") showSlide(currentSlide - 1);
+      }
+    });
+
+    $("company").addEventListener("input", updatePreview);
+    $("application").addEventListener("input", updatePreview);
+
+    $("copyProposal").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText($("proposalPreview").innerText);
+
+        const button = $("copyProposal");
+        button.textContent = "Copied!";
+        setTimeout(() => button.textContent = "Copy proposal", 1400);
+      } catch {
+        alert("Copy is unavailable in this browser. Select and copy the proposal text manually.");
+      }
+    });
+
+    renderCards();
+    updatePreview();
+  </script>
+</body>
+</html>
